@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>INTRO A LA PROGRAMACION - NUESTRA WEB!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header img {
+            height: 50px;
+            margin-right: 15px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        #map {
+            width: 100%;
+            height: 60vh;
+        }
+        .popup-content img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+            margin: 5px auto;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 800px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        /* Estilo para el Podio */
+        .podium {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        .podium div {
+            width: 150px;
+            height: 200px;
+            margin: 10px;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f8f8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .podium img {
+            max-height: 100px;
+            width: auto;
+            margin-bottom: 10px;
+        }
+        .podium div h3 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .podium div span {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://storage.googleapis.com/imagenes_digital_wings/logo-transparente-con-letras.png" alt="Digital Wings Academy Logo">
+        <h1>INTRODUCCION A LA PROGRAMACION - NUESTRA PRIMERA WEB</h1>
+    </header>
+
+    <!-- Mapa de los estudiantes -->
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Script personalizado -->
+    <script>
+        // Inicializar el mapa y establecer su vista
+        var map = L.map('map').setView([40.4168, -3.7038], 5); // Coordenadas centrales (Madrid, España)
+
+        // Añadir capa de mapa de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; Colaboradores de <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // Datos de los estudiantes
+        var estudiantes = [
+            {
+                nombre_secreto: "Otrebla",
+                coordenadas: [40.675347062087695, -3.9698557699692643], // Moralzarzal
+                mascota: "Tortuga 🐢",
+                comidaFavorita: "Cocido madrileño 🍲",
+                peliculaFavorita: "Vaiana 🌊",
+                hobbie: "Esquiar ⛷️",
+                sueño_o_meta: "Dar clases de programación a muchísimos niñ@s 💻",
+                imagen: "https://storage.googleapis.com/imagenes_digital_wings/logo-transparente-con-letras.png"
+            },
+            {
+                nombre_secreto: "Anairam",
+                coordenadas: [40.621740082555725, -4.011545416890139], // Collado Villalba
+                mascota: "Perro 🐶",
+                comidaFavorita: "arroz 🍚",
+                peliculaFavorita: "Del reves 2 😊😢😡😱🤢",
+                hobbie: "Videojuegos 🎮",
+                sueño_o_meta: "",
+                imagen: "https://storage.googleapis.com/imagenes_digital_wings/Unicorn_Profile_Image-removebg-preview.png"
+            },
+            {
+                nombre_secreto: "El pro de la informatica",
+                coordenadas: [40.57818678751907, -4.0053896749285], // Galapagar
+                mascota: "Tengo 2 gatos 🐱🐱",
+                comidaFavorita: "Croquetas",
+                peliculaFavorita: "Del reves 😊😢😡😱🤢",
+                hobbie: "La informatica 💻",
+                sueño_o_meta: "Ser informatico ⌨️",
+                imagen: "https://cdn.pixabay.com/photo/2012/12/17/19/14/keyboard-70506_640.jpg"
+            },
+            {
+                nombre_secreto: "Aras",
+                coordenadas: [40.62789194514925, -4.004112639384471], // Collado Villalba
+                mascota: "no tengo",
+                comidaFavorita: "Pasta con calabacin 🍝 + 🥒",
+                peliculaFavorita: "Avatar 🌍",
+                hobbie: "programar 💻",
+                sueño_o_meta: "ser ingeniera 👷️",
+                imagen: "https://cdn.pixabay.com/photo/2023/08/05/15/42/panda-8171354_640.jpg"
+            },
+            {
+                nombre_secreto: "Ordep",
+                coordenadas: [40.63073228308119, -4.013810959192292], // Collado Villalba
+                mascota: "perro 🐶",
+                comidaFavorita: "muslos de pollo con arroz 🍗 + 🍚",
+                peliculaFavorita: "coco 🎸💀",
+                hobbie: "video juegos 🎮",
+                sueño_o_meta: "ser cientifico 🧑🔬",
+                imagen: "https://cdn.pixabay.com/photo/2024/02/29/11/50/ai-generated-8604083_640.jpg"
+            },
+            {
+                nombre_secreto: "Aullidos",
+                coordenadas: [40.64757352704721, -3.9768920412461943], // Collado Villalba
+                mascota: "lobito bebe 🐺",
+                comidaFavorita: "huevos fritos con patatas 🍳 + 🍟",
+                peliculaFavorita: "Del Reves",
+                hobbie: "pintar y dibujar 🎨",
+                sueño_o_meta: "ser actriz 🎭",
+                imagen: "https://cdn.pixabay.com/photo/2023/07/22/05/50/wolf-8142720_1280.png"
+            },
+            {
+                nombre_secreto: "Atolrac",
+                coordenadas: [40.682558, -3.968365], // Moralzarzal
+                mascota: "tortuga 🐢",
+                comidaFavorita: "pizza 🍕",
+                peliculaFavorita: "Harry Potter 🪄",
+                hobbie: "tocar la guitarra y viajar 🎸 + ✈️",
+                sueño_o_meta: "ser fotógrafa y tener  un perro 📷 + 🐶",
+                imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGdjJCKeH-fdk98xpyVgnH3DXfT05js7PDOQ&s"
+            },
+            {
+                nombre_secreto: "Puntos Suspensivos...",
+                coordenadas: [40.43499118502441, -3.9979923398552963], // Villanueva de la Cañada
+                mascota: "pez 🐟",
+                comidaFavorita: "Hamburguesa 🍔",
+                peliculaFavorita: "Del Reves 😊😢😡😱🤢",  // Cambio Inside Out por Del Reves
+                hobbie: "Jugar al fútbol ⚽",
+                sueño_o_meta: "Ser programador 🖥️",
+                imagen: "https://uploads.codehs.com/2bb73a0b7cbce37c08be0bfdda776f7c"
+            },
+            {
+                nombre_secreto: "XxDani155GamerxX.",
+                coordenadas: [40.6275266844383, -3.9986791479808304], // Collado Villalba
+                mascota: "Pajaro",
+                comidaFavorita: "Lubina con patatas 🐟 + 🍟",
+                peliculaFavorita: "Terminator 2 🤖🔥",  
+                hobbie: "Informatica y programacion 💻",
+                sueño_o_meta: "️Ser programador",
+                imagen: "https://uploads.codehs.com/c0b436b7617b5983d9cdc73929a3ede3"
+            }
+        ];
+
+        // Añadir marcadores al mapa
+        estudiantes.forEach(function(estudiante) {
+            var marcador = L.marker(estudiante.coordenadas).addTo(map);
+            var popupContent = `
+                <div class="popup-content">
+                    <h3>${estudiante.nombre_secreto}</h3>
+                    <img src="${estudiante.imagen}" alt="Foto de ${estudiante.nombre_secreto}">
+                    <p><strong>Mascota:</strong> ${estudiante.mascota}</p>
+                    <p><strong>Comida favorita:</strong> ${estudiante.comidaFavorita}</p>
+                    <p><strong>Película favorita:</strong> ${estudiante.peliculaFavorita}</p>
+                    <p><strong>Hobbie:</strong> ${estudiante.hobbie}</p>
+                    <p><strong>Sueño o meta:</strong> ${estudiante.sueño_o_meta}</p>
+                </div>
+            `;
+            marcador.bindPopup(popupContent);
+        });
+    </script>
+
+    <!-- Tabla de puntuaciones -->
+    <table>
+        <thead>
+            <tr>
+                <th>Película</th>
+                <th>Otrebla</th>
+                <th>Anairam</th>
+                <th>El pro de la informatica</th>
+                <th>Aras</th>
+                <th>Ordep</th>
+                <th>Aullidos</th>
+                <th>Atolrac</th>
+                <th>Puntos Suspensivos...</th>
+                <th>Media</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Vaiana</td>
+                <td contenteditable="true">10</td> <!-- Otrebla -->
+                <td contenteditable="true">10</td> <!-- Anairam -->
+                <td contenteditable="true">0</td> <!-- El pro de la informatica -->
+                <td contenteditable="true">0</td> <!-- Aras -->
+                <td contenteditable="true">0</td> <!-- Ordep -->
+                <td contenteditable="true">10</td> <!-- Aullidos -->
+                <td contenteditable="true">0</td> <!-- Atolrac -->
+                <td contenteditable="true">0</td> <!-- Puntos Suspensivos... -->
+                <td class="media"></td> <!-- Media -->
+            </tr>
+            <tr>
+                <td>Del reves</td>
+                <td contenteditable="true">5</td> <!-- Otrebla -->
+                <td contenteditable="true">10</td> <!-- Anairam -->
+                <td contenteditable="true">0</td> <!-- El pro de la informatica -->
+                <td contenteditable="true">0</td> <!-- Aras -->
+                <td contenteditable="true">0</td> <!-- Ordep -->
+                <td contenteditable="true">8</td> <!-- Aullidos -->
+                <td contenteditable="true">0</td> <!-- Atolrac -->
+                <td contenteditable="true">0</td> <!-- Puntos Suspensivos... -->
+                <td class="media"></td> <!-- Media -->
+            </tr>
+            <tr>
+                <td>Del reves 2</td>
+                <td contenteditable="true">5</td> <!-- Otrebla -->
+                <td contenteditable="true">10</td> <!-- Anairam -->
+                <td contenteditable="true">0</td> <!-- El pro de la informatica -->
+                <td contenteditable="true">0</td> <!-- Aras -->
+                <td contenteditable="true">0</td> <!-- Ordep -->
+                <td contenteditable="true">10</td> <!-- Aullidos -->
+                <td contenteditable="true">0</td> <!-- Atolrac -->
+                <td contenteditable="true">0</td> <!-- Puntos Suspensivos... -->
+                <td class="media"></td> <!-- Media -->
+            </tr>
+            <tr>
+                <td>AVATAR</td>
+                <td contenteditable="true">6</td> <!-- Otrebla -->
+                <td contenteditable="true">0</td> <!-- Anairam -->
+                <td contenteditable="true">0</td> <!-- El pro de la informatica -->
+                <td contenteditable="true">0</td> <!-- Aras -->
+                <td contenteditable="true">0</td> <!-- Ordep -->
+                <td contenteditable="true">10</td> <!-- Aullidos -->
+                <td contenteditable="true">0</td> <!-- Atolrac -->
+                <td contenteditable="true">0</td> <!-- Puntos Suspensivos... -->
+                <td class="media"></td> <!-- Media -->
+            </tr>
+            <tr>
+                <td>Coco</td>
+                <td contenteditable="true">8</td> <!-- Otrebla -->
+                <td contenteditable="true">9</td> <!-- Anairam -->
+                <td contenteditable="true">0</td> <!-- El pro de la informatica -->
+                <td contenteditable="true">0</td> <!-- Aras -->
+                <td contenteditable="true">0</td> <!-- Ordep -->
+                <td contenteditable="true">9</td> <!-- Aullidos -->
+                <td contenteditable="true">0</td> <!-- Atolrac -->
+                <td contenteditable="true">0</td> <!-- Puntos Suspensivos... -->
+                <td class="media"></td> <!-- Media -->
+            </tr>
+            <tr>
+                <td>Harry Potter</td>
+                <td contenteditable="true">7</td> <!-- Otrebla -->
+                <td contenteditable="true">1</td> <!-- Anairam -->
+                <td contenteditable="true">0</td> <!-- El pro de la informatica -->
+                <td contenteditable="true">0</td> <!-- Aras -->
+                <td contenteditable="true">0</td> <!-- Ordep -->
+                <td contenteditable="true">8</td> <!-- Aullidos -->
+                <td contenteditable="true">0</td> <!-- Atolrac -->
+                <td contenteditable="true">0</td> <!-- Puntos Suspensivos... -->
+                <td class="media"></td> <!-- Media -->
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Podio -->
+    <h2>Podio de Películas Más Votadas</h2>
+    <div class="podium">
+        <div class="podiumFirst">
+            <img id="podiumImage1" alt="Película 1">
+            <h3 id="podiumTitle1">1º Película</h3>
+            <span id="podiumScore1">0</span>
+        </div>
+        <div class="podiumSecond">
+            <img id="podiumImage2" alt="Película 2">
+            <h3 id="podiumTitle2">2º Película</h3>
+            <span id="podiumScore2">0</span>
+        </div>
+        <div class="podiumThird">
+            <img id="podiumImage3" alt="Película 3">
+            <h3 id="podiumTitle3">3º Película</h3>
+            <span id="podiumScore3">0</span>
+        </div>
+    </div>
+
+    <!-- Script para actualizar dinámicamente la media y el podio -->
+    <script>
+        // Función para actualizar la media de cada fila
+        function updateMedia() {
+            const rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                let total = 0;
+                let count = 0;
+                const cells = row.querySelectorAll("td");
+                cells.forEach((cell, index) => {
+                    if (index > 0 && index < cells.length - 1) { // Solo las celdas de puntuación
+                        let value = parseFloat(cell.textContent) || 0;
+                        if (value > 0) {
+                            total += value;
+                            count++;
+                        }
+                    }
+                });
+
+                const mediaCell = row.querySelector(".media");
+                mediaCell.textContent = (total / count).toFixed(2); // Mostrar la media redondeada a 2 decimales
+            });
+
+            updatePodium();
+        }
+
+        // Función para actualizar el podio con las 3 películas más votadas
+        function updatePodium() {
+            const rows = document.querySelectorAll("tbody tr");
+            let movies = [];
+
+            rows.forEach(row => {
+                const movieName = row.cells[0].textContent;
+                const media = parseFloat(row.querySelector(".media").textContent) || 0;
+                movies.push({ name: movieName, media: media });
+            });
+
+            // Ordenar las películas por la media (de mayor a menor)
+            movies.sort((a, b) => b.media - a.media);
+
+            // Mostrar las tres primeras películas en el podio
+            document.getElementById("podiumTitle1").textContent = "1º " + movies[0].name;
+            document.getElementById("podiumScore1").textContent = movies[0].media;
+            document.getElementById("podiumImage1").src = peliculasImages[movies[0].name]; // Cambiar con la URL de la imagen
+
+            document.getElementById("podiumTitle2").textContent = "2º " + movies[1].name;
+            document.getElementById("podiumScore2").textContent = movies[1].media;
+            document.getElementById("podiumImage2").src = peliculasImages[movies[1].name]; // Cambiar con la URL de la imagen
+
+            document.getElementById("podiumTitle3").textContent = "3º " + movies[2].name;
+            document.getElementById("podiumScore3").textContent = movies[2].media;
+            document.getElementById("podiumImage3").src = peliculasImages[movies[2].name]; // Cambiar con la URL de la imagen
+        }
+
+        // Definir las imágenes de las películas
+        const peliculasImages = {
+            "Vaiana": "https://cdn.pixabay.com/photo/2021/02/08/19/18/moana-5996159_1280.png",
+            "Harry Potter": "https://tourlondres.com/wp-content/uploads/2018/02/hd-harry-potter-free-wallpapers-free-download-e1589421772480.jpg",
+            "Del reves": "https://cdn.sincroguia.tv/uploads/programs/d/e/l/xdel-reves-inside-out-381131_SPA-78.jpg.pagespeed.ic.9aXTVN7Wto.jpg",
+            "AVATAR": "https://www.numerama.com/wp-content/uploads/2022/10/avatar-remaster-2022.jpg",
+            "Del reves 2": "https://www.cine.com/media/noticias/2024/06/202406248026135.jpg",
+            "Coco": "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2017/11/coco.jpg?tf=1920x"
+        };
+
+        // Llamada inicial para actualizar la media y el podio
+        updateMedia();
+    </script>
+
+</body>
+</html>
