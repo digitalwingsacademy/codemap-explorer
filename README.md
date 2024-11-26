@@ -55,7 +55,7 @@ This project is licensed under the **MIT License**. See the `LICENSE` file for d
 If you have any questions or suggestions, feel free to reach out:
 
 - 🌐 [Digital Wings Academy](https://digitalwingsacademy.com)
-- 📧 [info@digitalwingsacademy.com](mailto:info@digitalwingsacademy.com)
+- 📧 [digitalwings@digitalwingsacademy.com](mailto:digitalwings@digitalwingsacademy.com)
 - 📸 Instagram: [@digital_wings_academy](https://www.instagram.com/digital_wings_academy)
 
 Thank you for your interest in this project! 🚀
