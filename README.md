@@ -6,11 +6,12 @@ This repository contains the source code for an interactive web project designed
 
 ## 🚀 Features
 
-- 🌍 **Interactive Map**: Locate students on a map using Leaflet.js.
+- 🌍 **Interactive Map**: Locate students and their favorite places on a map using Leaflet.js.
+- ❤️ **Favorite Places with Likes**: Students can share their favorite places, along with details like reasons for liking them, memories, and activities, and others can like these places. The number of likes is updated dynamically without refreshing the page.
 - 🎥 **Movie Rating Table**: Record and display students' favorite movie ratings.
 - 🏆 **Dynamic Podium**: Showcase the top-rated movies in a ranking system.
-- 📊 **Average Score Calculation**: Automatically updates the average scores.
-- 🖼️ **Customized Pop-ups**: Detailed information about each student with images and relevant data.
+- 📊 **Average Score Calculation**: Automatically updates the average scores for each movie.
+- 🖼️ **Customized Pop-ups**: Detailed information about each student and their favorite places, including images and other details.
 
 ---
 
@@ -21,14 +22,16 @@ This repository contains the source code for an interactive web project designed
 - **JavaScript**: Logic and interactivity.
 - **Leaflet.js**: Interactive map functionality.
 - **OpenStreetMap**: Map tiles.
+- **Flask**: Backend for handling data and API endpoints.
+- **SQLAlchemy**: Database ORM for managing student and place data.
+- **MySQL**: Database for storing places, likes, and other details.
 
 ---
 
 ## 🚧 Next Steps
 
 1. Enhance responsiveness for mobile devices.
-2. Allow students to add their own data directly from the interface.
-3. Add a gamification system to encourage participation.
+2. Add a leaderboard for the most-liked places to increase engagement.
 
 ---
 
